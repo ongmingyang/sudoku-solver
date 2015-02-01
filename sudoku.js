@@ -116,13 +116,14 @@ var Board = (function() {
         var s1 = this.constraints['rows'][i].get_domain();
         var s2 = this.constraints['columns'][j].get_domain();
         var s3 = this.constraints['squares'][~~(i/3)*3 + ~~(j/3)].get_domain();
-        var s = s1.concat(s2,s3), set = {};
-        for (var k in s) set[s[k]] = null;
+
+        // Finds set intersection of s1 & s2 & s3
+        s = s1.filter(function(n) {
+          return s2.indexOf(n) != -1 && s3.indexOf(n) != -1;
+        });
 
         // Returns singleton location and assignment
-        if (Object.keys(set).length == 1) {
-          return [i,j,Object.keys(set)[0]];
-        }
+        if (s.length == 1) return [i,j,s[0]];
       }
     }
     return false;
