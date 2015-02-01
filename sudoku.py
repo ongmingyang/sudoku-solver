@@ -35,28 +35,26 @@ class Constraint:
     return s
 
 class Board:
-  def __init__(self, string=None):
-    c = {}
-    c['rows'] = f(9, Constraint)
-    c['columns'] = f(9, Constraint)
-    c['squares'] = f(9, Constraint)
-    self.constraints = c
+  def __init__(self, string):
+    self.constraints = {}
+    self.constraints['rows'] = f(9, Constraint)
+    self.constraints['columns'] = f(9, Constraint)
+    self.constraints['squares'] = f(9, Constraint)
     self.guesses = 0
-    # Initialise starting sudoku pieces
-    if string:
-      rows = [s.strip() for s in string.split("\n")]
-      for i in xrange(9):
-        for j in xrange(9):
-          n = int(rows[i][j])
-          if n:
-            self.write(i,j,n)
 
-  def __repr__(self):
-    r = self.constraints['rows']
+    # Initialise starting sudoku pieces
+    rows = [s.strip() for s in string.split("\n")]
     for i in xrange(9):
       for j in xrange(9):
-        if r[i][j] is None: print "_",
-        else: print r[i][j],
+        n = int(rows[i][j])
+        if n:
+          self.write(i,j,n)
+
+  def __repr__(self):
+    for i in xrange(9):
+      for j in xrange(9):
+        c = self.constraints['rows'][i][j]
+        print (c if c else "_"),
       print
     return "  Sudoku Board  \n"
 
