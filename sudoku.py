@@ -1,10 +1,9 @@
 from pdb import set_trace as debug
-from copy import deepcopy as copy
 
 def f(n, obj=None):
   # This returns a dictionary with keys 0..n-1 with values obj..obj
   if not obj: return {k: None for k in xrange(n)}
-  else: return {k: copy(obj) for k in xrange(n)}
+  else: return {k: obj(9) for k in xrange(n)}
 
 class Constraint:
   def __init__(self, buckets):
@@ -30,18 +29,17 @@ class Constraint:
 
   def get_domain(self):
     # Returns domain of constraint
-    fullset = set(range(1,10))
-    s = set()
+    s = set(range(1,10))
     for k, v in self.buckets.iteritems():
-      s.add(v)
-    return fullset - s
+      s.discard(v)
+    return s
 
 class Board:
   def __init__(self, string=None):
     c = {}
-    c['rows'] = f(9, Constraint(9))
-    c['columns'] = f(9, Constraint(9))
-    c['squares'] = f(9, Constraint(9))
+    c['rows'] = f(9, Constraint)
+    c['columns'] = f(9, Constraint)
+    c['squares'] = f(9, Constraint)
     self.constraints = c
     self.guesses = 0
     # Initialise starting sudoku pieces
