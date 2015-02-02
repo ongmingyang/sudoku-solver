@@ -38,14 +38,38 @@
       }]);
   </script>
   <style>
-    body {
-      text-align: center;
+    html, body {
+      height: 100%;
     }
+
+    body {
+      margin: 0px;
+      padding: 0px;
+      text-align: center;
+      background-image: url('vignette-bottom.png');
+      background-repeat: no-repeat;
+      background-position: left bottom; 
+    }
+
+    div.outer {
+      display: table;
+      position: absolute;
+      height: 100%;
+      width: 100%;
+    }
+
+    div.middle {
+      display: table-cell;
+      vertical-align: middle;
+    }
+
     div.wrapper {
       border: solid 1px #ccc;
+      box-shadow: 0px 0px 5px 1px #ccc;
       width: 441px;
-      margin: 20px auto;
+      margin: 0px auto;
     }
+
     div.column {
       display: inline-block;  
     }
@@ -61,7 +85,7 @@
     }
 
     input[type=button] {
-      margin: 0px 30px;
+      margin: 20px 30px;
       padding: 5px 10px;
       font-size: 20px;
       font-family: "Helvetica Neue";
@@ -73,13 +97,16 @@
       letter-spacing: 1px;
       position: fixed;
       text-align: right;
-      bottom: 20px;
+      bottom: 10px;
       right: 20px;
       line-height: 1.2;
     }
   </style>
 </head>
 <body ng-controller="sudokuController">
+  <div class="outer">
+  <div class="middle">
+
   <div class="wrapper">
     <div class="row" ng-repeat="row in rows">
       <div class="column" ng-repeat="col in columns">
@@ -87,9 +114,12 @@
       </div>
     </div>
   </div>
-
   <input type="button" value="Clear" ng-click="clear()">
   <input type="button" value="Solve" ng-click="solve()">
+
+  </div>
+  </div>
+
   <div class="bottom-label">
   Sudoku by Ming<br>
   <a href="http://ongmingyang.com">ongmingyang.com</a><br>
