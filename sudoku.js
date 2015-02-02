@@ -171,18 +171,3 @@ var Board = (function() {
 
   return Board;
 })();
-
-var b = new Board( "530070000\n" +
-                   "600195000\n" +
-                   "098000060\n" +
-                   "800060003\n" +
-                   "400803001\n" +
-                   "700020006\n" +
-                   "060000280\n" +
-                   "000419005\n" +
-                   "000080079");
-b.print();
-if (b.start_guess()) b.print();
-else console.log("No solution found");
-
-console.log("Iterations:", b.guesses);
