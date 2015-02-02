@@ -49,6 +49,7 @@ var Board = (function() {
     this.constraints['columns'] = f(9, Constraint);
     this.constraints['squares'] = f(9, Constraint);
     this.guesses = 0;
+    this.contradiction = false;
 
     // Initialize starting sudoku pieces
     var rows = string.split("\n");
@@ -57,7 +58,7 @@ var Board = (function() {
       for (var j=0; j<dim; j++) {
         var n = rows[i][j]
         if (n>0) {
-          this.write(i,j,n);
+          if (!this.write(i,j,n)) this.contradiction = true;
         }
       }
     }
