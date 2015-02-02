@@ -185,4 +185,4 @@ b.print();
 if (b.start_guess()) b.print();
 else console.log("No solution found");
 
-console.log("Iterations", b.guesses);
+console.log("Iterations:", b.guesses);
