@@ -87,19 +87,19 @@
       color: #333;
     }
 
-    div.column:nth-child(3) > input.squares, div.column:nth-child(6) > input.squares {
+    div.column:nth-child(3n) > input.squares {
       border-right: solid 1px #999;
     }
 
-    div.column:nth-child(4) > input.squares, div.column:nth-child(7) > input.squares {
+    div.column:nth-child(3n+1) > input.squares {
       border-left: solid 1px #999;
     }
 
-    div.row:nth-child(3) > div.column > input.squares, div.row:nth-child(6) > div.column > input.squares {
+    div.row:nth-child(3n) > div.column > input.squares {
       border-bottom: solid 1px #999;
     }
 
-    div.row:nth-child(4) > div.column > input.squares, div.row:nth-child(7) > div.column > input.squares {
+    div.row:nth-child(3n+1) > div.column > input.squares {
       border-top: solid 1px #999;
     }
 
