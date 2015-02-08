@@ -17,6 +17,14 @@
         $scope.columns = [0,1,2,3,4,5,6,7,8];
         $scope.inputs = {};
         $scope.valid = true;
+        $scope.flash = function() {
+          $scope.valid = false;
+          setTimeout(function() {
+            $scope.$apply(function() {
+              $scope.valid = true;
+            });
+          }, 1500);
+        }
         $scope.clear = function() {
           console.log($scope.inputs);
           $scope.valid = true;
@@ -32,7 +40,10 @@
             } else str += "0";
           }
           var b = new Board(str);
-          if (b.contradiction) return false;
+          if (b.contradiction) {
+            $scope.flash();
+            return false;
+          }
           if (b.start_guess()) {
             for (var i=0; i<9; i++) {
               for (var j=0; j<9; j++) {
@@ -41,12 +52,7 @@
             }
             $scope.valid = true;
           } else {
-            $scope.valid = false;
-            setTimeout(function() {
-              $scope.$apply(function() {
-                $scope.valid = true;
-              });
-            }, 1500);
+            $scope.flash();
           }
         }
       }]);
