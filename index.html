@@ -16,15 +16,20 @@
         $scope.rows = [0,1,2,3,4,5,6,7,8];
         $scope.columns = [0,1,2,3,4,5,6,7,8];
         $scope.inputs = {};
+        $scope.valid = true;
         $scope.clear = function() {
           console.log($scope.inputs);
+          $scope.valid = true;
           $scope.inputs = {};
         }
         $scope.solve = function() {
           var str = "";
           for (var i=0; i<89; i++) {
             if (i%9 == 0 && i != 0) str += "\n";
-            str += (i in $scope.inputs ? $scope.inputs[i] : "0")
+            if (i in $scope.inputs) {
+              if ($scope.inputs[i] == "") str += "0";
+              else str += String($scope.inputs[i]);
+            } else str += "0";
           }
           var b = new Board(str);
           if (b.contradiction) return false;
@@ -34,99 +39,25 @@
                 $scope.inputs[i*9+j] = b.constraints['rows'][i].buckets[j];
               }
             }
+            $scope.valid = true;
+          } else {
+            $scope.valid = false;
+            setTimeout(function() {
+              $scope.$apply(function() {
+                $scope.valid = true;
+              });
+            }, 1500);
           }
         }
       }]);
   </script>
-  <style>
-    html, body {
-      height: 100%;
-    }
-
-    body {
-      margin: 0px;
-      padding: 0px;
-      text-align: center;
-      background-image: url('vignette-bottom.png');
-      background-repeat: no-repeat;
-      background-position: left bottom; 
-    }
-
-    div.outer {
-      display: table;
-      position: absolute;
-      height: 100%;
-      width: 100%;
-    }
-
-    div.middle {
-      display: table-cell;
-      vertical-align: middle;
-    }
-
-    div.wrapper {
-      border: solid 1px #ccc;
-      box-shadow: 0px 0px 5px 1px #ccc;
-      width: 441px;
-      margin: 0px auto;
-    }
-
-    div.column {
-      display: inline-block;  
-    }
-
-    input.squares {
-      width: 45px;
-      height: 45px;
-      padding: 1px;
-      margin: 0px;
-      text-align: center;
-      background-color: #fff;
-      border: solid 1px #ccc;
-      font-size: 20px;
-      color: #333;
-    }
-
-    div.column:nth-child(3n) > input.squares {
-      border-right: solid 1px #999;
-    }
-
-    div.column:nth-child(3n+1) > input.squares {
-      border-left: solid 1px #999;
-    }
-
-    div.row:nth-child(3n) > div.column > input.squares {
-      border-bottom: solid 1px #999;
-    }
-
-    div.row:nth-child(3n+1) > div.column > input.squares {
-      border-top: solid 1px #999;
-    }
-
-    input[type=button] {
-      margin: 20px 30px;
-      padding: 5px 10px;
-      font-size: 20px;
-      font-family: "Helvetica Neue";
-    }
-
-    div.bottom-label {
-      font-family: "Helvetica Neue";
-      font-weight: 100;
-      letter-spacing: 1px;
-      position: fixed;
-      text-align: right;
-      bottom: 10px;
-      right: 20px;
-      line-height: 1.2;
-    }
-  </style>
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body ng-controller="sudokuController">
   <div class="outer">
   <div class="middle">
 
-  <div class="wrapper">
+  <div class="wrapper" ng-class="valid ? '' : 'bad-wrapper'">
     <div class="row" ng-repeat="row in rows">
       <div class="column" ng-repeat="col in columns">
         <input class="squares" ng-model="inputs[row*9 + col]">
